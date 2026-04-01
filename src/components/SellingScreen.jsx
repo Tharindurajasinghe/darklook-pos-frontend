@@ -114,7 +114,7 @@ const SellingScreen = ({ onEndDay }) => {
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [cartItems, cash]);  // added cash — fixes stale closure when Ctrl is pressed
+  }, [cartItems, cash, customerName]);  // added cash — fixes stale closure when Ctrl is pressed
 
   // ── Barcode scanner listener ───────────────────────────────────────────────
   // Barcode scanners typically fire characters rapidly and finish with Enter.
