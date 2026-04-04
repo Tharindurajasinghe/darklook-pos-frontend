@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import { UNIT_OPTIONS } from '../utils/Units';  // ✅ NEW IMPORT
+import BarcodeGenerator from './BarcodeGenerator';
 
 /**
  * UpdateProduct Component
@@ -421,6 +422,23 @@ const UpdateProduct = ({ showUpdateModal, setShowUpdateModal, productId, onProdu
                 <p>• <span className="bg-red-100 px-1 rounded line-through">Red strikethrough</span> = Marked for deletion (click ↩ to restore)</p>
               </div>
             </div>
+
+            {/* Barcode Generator Panel */}
+            <BarcodeGenerator
+              variantRows={variantRows.filter(r => !r.deleted)}
+              productId={productId}
+              onUpdateBarcode={(filteredIndex, value) => {
+                // filteredIndex is index in the non-deleted list,
+                // we need to map it back to the real index in variantRows
+                const activeRows = variantRows
+                  .map((r, i) => ({ ...r, realIndex: i }))
+                  .filter(r => !r.deleted);
+                const realIndex = activeRows[filteredIndex]?.realIndex;
+                if (realIndex !== undefined) {
+                  updateRow(realIndex, 'barcode', value);
+                }
+              }}
+            />
 
             {/* Footer Buttons */}
             <div className="flex gap-3 pt-4 border-t mt-2">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 import { UNIT_OPTIONS } from '../utils/Units';  // ✅ NEW IMPORT
+import BarcodeGenerator from './BarcodeGenerator';
 
 /**
  * AddProduct Component
@@ -48,6 +49,10 @@ const AddProduct = ({ showAddModal, setShowAddModal, formData, setFormData, onPr
       prev.map((row, i) => i === index ? { ...row, [field]: value } : row)
     );
   };
+
+  const updateBarcodeForRow = (index, value) => {
+  updateVariantRow(index, 'barcode', value);
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -182,6 +187,7 @@ const AddProduct = ({ showAddModal, setShowAddModal, formData, setFormData, onPr
                 <label className="text-gray-700 font-medium">Variants</label>
                 <p className="text-xs text-gray-500">Leave variant name empty for Standard</p>
               </div>
+            
               <button
                 type="button"
                 onClick={addVariantRow}
@@ -309,6 +315,13 @@ const AddProduct = ({ showAddModal, setShowAddModal, formData, setFormData, onPr
               </p>
             )}
           </div>
+
+          {/* Barcode Generator Panel */}
+<BarcodeGenerator
+  variantRows={variantRows}
+  productId={formData.productId}
+  onUpdateBarcode={updateBarcodeForRow}
+/>
 
           {/* Footer Buttons */}
           <div className="flex gap-3 pt-4 border-t mt-2">
