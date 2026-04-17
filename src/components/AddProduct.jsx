@@ -317,11 +317,11 @@ const AddProduct = ({ showAddModal, setShowAddModal, formData, setFormData, onPr
           </div>
 
           {/* Barcode Generator Panel */}
-<BarcodeGenerator
-  variantRows={variantRows}
-  productId={formData.productId}
-  onUpdateBarcode={updateBarcodeForRow}
-/>
+             <BarcodeGenerator
+            variantRows={variantRows}
+            productId={formData.productId}
+            onUpdateBarcode={updateBarcodeForRow}
+             />
 
           {/* Footer Buttons */}
           <div className="flex gap-3 pt-4 border-t mt-2">
