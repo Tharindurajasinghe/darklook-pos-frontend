@@ -1,8 +1,8 @@
+import { LOGO_BASE64 } from '../utils/logoBase64'; // adjust path if needed
+
 export const getBillHTML = (bill) => {
   const date = new Date(bill.date).toLocaleDateString('en-CA');
 
-  // Calculate total discount = sum of (originalPrice - editedPrice) * qty
-  // Only items where originalPrice is present (i.e. price was edited) contribute
   const totalDiscount = bill.items.reduce((sum, i) => {
     if (i.originalPrice !== undefined && i.originalPrice !== null) {
       return sum + (i.originalPrice - i.price) * i.quantity;
@@ -11,8 +11,6 @@ export const getBillHTML = (bill) => {
   }, 0);
 
   const hasAnyDiscount = totalDiscount > 0;
-
-  // Check if ANY item has an edited price — used to decide whether to show Dis.Pri column
   const hasEditedPrice = bill.items.some(
     i => i.originalPrice !== undefined && i.originalPrice !== null
   );
@@ -25,143 +23,305 @@ export const getBillHTML = (bill) => {
       <style>
         @media print {
           @page { size: 80mm auto; margin: 0; }
+          body { padding: 0; }
         }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
           font-family: 'Courier New', monospace;
-          width: 300px;
+          width: 302px;
           margin: 0 auto;
-          padding: 5px;
           font-size: 10px;
+          color: #111;
+          background: #fff;
         }
-        .header { text-align: center; }
-        .shop-name { font-size: 18px; font-weight: bold; margin: 4px 0; }
-        .bio { font-size: 11px; margin: 2px 0; }
-        .separator { border-top: 1px dashed #000; margin: 8px 0; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { font-size: 10px; padding: 3px 0; }
-        th { border-bottom: 1px solid #000; }
-        .right { text-align: right; }
-        .center { text-align: center; }
-        .variant-info {
+
+        /* ── DARK HEADER ─────────────────────────────── */
+        .header {
+          background: #1a1a1a;
+          color: #fff;
+          padding: 10px 8px 8px;
+          text-align: center;
+        }
+
+        .logo-wrap {
+          margin-bottom: 6px;
+        }
+
+        .logo-wrap img {
+          width: 64px;
+          height: 64px;
+          object-fit: contain;
+          border-radius: 6px;
+          background: #fff;
+          padding: 3px;
+        }
+
+        .shop-name {
+          font-size: 17px;
+          font-weight: bold;
+          letter-spacing: 1.5px;
+          text-transform: uppercase;
+          color: #fff;
+          margin-bottom: 3px;
+        }
+
+        .tagline {
+          font-size: 8.5px;
+          color: #ccc;
+          line-height: 1.5;
+          padding: 0 4px;
+        }
+
+        .contact-bar {
+          background: #333;
+          color: #eee;
           font-size: 9px;
-          color: #555;
-          font-style: italic;
+          text-align: center;
+          padding: 4px 6px;
+          letter-spacing: 0.4px;
         }
-        .unit-label {
-          font-size: 9px;
-          color: #666;
+
+        /* ── BILL META ───────────────────────────────── */
+        .meta-section {
+          padding: 6px 8px 4px;
+          border-bottom: 1px dashed #aaa;
         }
-        .dis-price {
-          font-size: 10px;
-          color: #000;
-        }
-        .original-price {
-          font-size: 9px;
-          color: #888;
-          text-decoration: line-through;
-        }
-        .summary-row {
+
+        .meta-row {
           display: flex;
           justify-content: space-between;
-          padding: 2px 0;
+          font-size: 9.5px;
+          padding: 1px 0;
         }
-        .summary-row b { font-size: 11px; }
+
+        .meta-row .label { color: #555; }
+        .meta-row .value { font-weight: bold; }
+
+        .bill-id-row {
+          font-size: 11px;
+          font-weight: bold;
+          text-align: center;
+          padding: 4px 0 2px;
+          letter-spacing: 0.5px;
+          border-bottom: 2px solid #1a1a1a;
+          margin: 0 8px 4px;
+        }
+
+        /* ── ITEMS TABLE ─────────────────────────────── */
+        .items-wrap { padding: 0 6px; }
+
+        table {
+          width: 100%;
+          border-collapse: collapse;
+        }
+
+        thead tr {
+          background: #1a1a1a;
+          color: #fff;
+        }
+
+        th {
+          font-size: 9px;
+          padding: 4px 3px;
+          font-weight: bold;
+          letter-spacing: 0.3px;
+        }
+
+        tbody tr:nth-child(even) { background: #f5f5f5; }
+
+        td {
+          font-size: 9.5px;
+          padding: 3px 3px;
+          vertical-align: top;
+        }
+
+        .right { text-align: right; }
+        .center { text-align: center; }
+
+        .variant-info {
+          display: block;
+          font-size: 8.5px;
+          color: #666;
+          font-style: italic;
+        }
+
+        .unit-label { font-size: 8.5px; color: #666; }
+
+        .original-price {
+          font-size: 8.5px;
+          color: #999;
+          text-decoration: line-through;
+          display: block;
+        }
+
+        .dis-price {
+          font-size: 9.5px;
+          color: #000;
+        }
+
+        /* ── TOTALS SECTION ──────────────────────────── */
+        .totals-section {
+          margin: 4px 6px 0;
+          border-top: 2px solid #1a1a1a;
+          padding-top: 4px;
+        }
+
+        .totals-row {
+          display: flex;
+          justify-content: space-between;
+          padding: 2px 2px;
+          font-size: 10px;
+        }
+
+        .totals-row.grand {
+          background: #1a1a1a;
+          color: #fff;
+          padding: 4px 6px;
+          margin: 4px 0;
+          font-size: 11px;
+          font-weight: bold;
+          border-radius: 2px;
+        }
+
+        .totals-row.discount-row {
+          color: #c0392b;
+          font-weight: bold;
+        }
+
+        /* ── FOOTER ──────────────────────────────────── */
+        .dashed { border-top: 1px dashed #aaa; margin: 6px 8px; }
+
         .sinhala-note {
           font-size: 9px;
           text-align: center;
-          margin: 8px 0;
-          line-height: 1.4;
+          padding: 4px 8px;
+          color: #444;
+          line-height: 1.6;
+        }
+
+        .thank-you {
+          background: #1a1a1a;
+          color: #fff;
+          text-align: center;
+          font-size: 12px;
+          font-weight: bold;
+          letter-spacing: 2px;
+          padding: 6px;
+          margin-top: 4px;
         }
       </style>
     </head>
     <body>
+
+      <!-- DARK HEADER -->
       <div class="header">
+        <div class="logo-wrap">
+          <img src="data:image/png;base64,${LOGO_BASE64}" alt="Logo" />
+        </div>
         <div class="shop-name">DarkLook Clothing</div>
-        <div class="bio">Premium Clothing
-                         wholesale & Retailer Dealer in All 
-                         Tshirts, Denims, Kids Dresses,(Mens Belt & purse), Bridel Lehangas,Tops
-                         Fancy items,
-                         also stitch & style Tailoring & Classes</div>
-
-        <p style="margin:2px 0">B/88, Badulupitiya Road,Badulla</p>
-        <p style="margin:2px 0">Tel: 0767153333/0787153333</p>
+        <div class="tagline">
+          Premium Clothing — Wholesale &amp; Retail<br>
+          T-Shirts · Denims · Kids Dresses · Bridal Lehengas<br>
+          Tops · Fancy Items · Tailoring &amp; Classes
+        </div>
       </div>
 
-      <div class="separator"></div>
+      <!-- CONTACT BAR -->
+      <div class="contact-bar">
+        📍 B/88, Badulupitiya Road, Badulla &nbsp;|&nbsp; 📞 0767153333 / 0787153333
+      </div>
+
+      <!-- BILL META -->
+      <div class="meta-section">
         ${bill.customerName && bill.customerName.trim()
-        ? `<p style="margin:4px 0">Name - ${bill.customerName.trim()}</p>`
-        : ''}
-
-      <p style="margin:4px 0"><b>Bill ID – ${bill.billId}</b></p>
-      <p style="margin:4px 0">${date.replace(/-/g, '.')} | ${bill.time}</p>
-
-      <div class="separator"></div>
-
-      <table>
-        <thead>
-          <tr>
-            <th style="width:38%">Name</th>
-            <th style="width:10%" class="center">Qty.</th>
-            <th style="width:16%" class="right">Price</th>
-            ${hasEditedPrice ? `<th style="width:16%" class="right">Dis. Price</th>` : ''}
-            <th style="width:20%" class="right">Total</th>
-          </tr>
-        </thead>
-        <tbody>
-          ${bill.items.map(i => {
-            const variantText = (i.variant && i.variant !== 'Standard')
-              ? `<br><span class="variant-info">(${i.variant})</span>`
-              : '';
-
-            const unitText = (i.unit && i.unit !== 'unit')
-              ? `<span class="unit-label">${i.unit}</span>`
-              : '';
-
-            const isPriceEdited = i.originalPrice !== undefined && i.originalPrice !== null;
-
-            // Price column: if edited, show original with strikethrough; else show normal
-            const priceCell = isPriceEdited
-              ? `<span class="original-price">${parseFloat(i.originalPrice).toFixed(2)}</span>`
-              : `${parseFloat(i.price).toFixed(2)}`;
-
-            // Dis.Pri column: only show value for rows that were edited
-            const disPriCell = hasEditedPrice
-              ? (isPriceEdited
-                  ? `<span class="dis-price">${parseFloat(i.price).toFixed(2)}</span>`
-                  : ``)
-              : '';
-
-            return `
-            <tr>
-              <td>${i.name}${variantText}</td>
-              <td class="center">${i.quantity}${unitText}</td>
-              <td class="right">${priceCell}</td>
-              ${hasEditedPrice ? `<td class="right">${disPriCell}</td>` : ''}
-              <td class="right">${parseFloat(i.total).toFixed(2)}</td>
-            </tr>
-            `;
-          }).join('')}
-        </tbody>
-      </table>
-
-      <div class="separator"></div>
-
-      <div class="summary-row"><b>Sub Total:</b><b>${bill.totalAmount.toFixed(2)}/=</b></div>
-      <div class="summary-row"><b>Cash Paid:</b><b>${bill.cash.toFixed(2)}/=</b></div>
-      <div class="summary-row"><b>Change:</b><b>${bill.change.toFixed(2)}/=</b></div>
-      ${hasAnyDiscount
-        ? `<div class="summary-row"><b>Profit:</b><b>${totalDiscount.toFixed(2)}/=</b></div>`
-        : ''}
-
-      <div class="separator"></div>
-
-      <div class="sinhala-note">
-        <p>භාණ්ඩ මාරු කිරීමට</p>
-        <p>බිල රෑගෙන ඒම අනිවාර්ය වේ.</p>
+          ? `<div class="meta-row"><span class="label">Customer</span><span class="value">${bill.customerName.trim()}</span></div>`
+          : ''}
+        <div class="meta-row">
+          <span class="label">Date</span>
+          <span class="value">${date.replace(/-/g, '.')} &nbsp; ${bill.time}</span>
+        </div>
       </div>
 
-      <p style="text-align:center"><b>Thank You..!</b></p>
+      <div class="bill-id-row">BILL ID — ${bill.billId}</div>
+
+      <!-- ITEMS TABLE -->
+      <div class="items-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th style="width:38%;text-align:left">Item</th>
+              <th style="width:10%" class="center">Qty</th>
+              <th style="width:16%" class="right">Price</th>
+              ${hasEditedPrice ? `<th style="width:16%" class="right">Dis.</th>` : ''}
+              <th style="width:20%" class="right">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${bill.items.map(i => {
+              const variantText = (i.variant && i.variant !== 'Standard')
+                ? `<span class="variant-info">(${i.variant})</span>`
+                : '';
+
+              const unitText = (i.unit && i.unit !== 'unit')
+                ? `<span class="unit-label"> ${i.unit}</span>`
+                : '';
+
+              const isPriceEdited = i.originalPrice !== undefined && i.originalPrice !== null;
+
+              const priceCell = isPriceEdited
+                ? `<span class="original-price">${parseFloat(i.originalPrice).toFixed(2)}</span>`
+                : `${parseFloat(i.price).toFixed(2)}`;
+
+              const disPriCell = hasEditedPrice
+                ? (isPriceEdited
+                    ? `<span class="dis-price">${parseFloat(i.price).toFixed(2)}</span>`
+                    : ``)
+                : '';
+
+              return `
+              <tr>
+                <td>${i.name}${variantText}</td>
+                <td class="center">${i.quantity}${unitText}</td>
+                <td class="right">${priceCell}</td>
+                ${hasEditedPrice ? `<td class="right">${disPriCell}</td>` : ''}
+                <td class="right">${parseFloat(i.total).toFixed(2)}</td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- TOTALS -->
+      <div class="totals-section">
+        <div class="totals-row">
+          <span>Sub Total</span>
+          <span>${bill.totalAmount.toFixed(2)} /=</span>
+        </div>
+        <div class="totals-row grand">
+          <span>Cash Paid</span>
+          <span>${bill.cash.toFixed(2)} /=</span>
+        </div>
+        <div class="totals-row">
+          <span>Change</span>
+          <span>${bill.change.toFixed(2)} /=</span>
+        </div>
+        ${hasAnyDiscount
+          ? `<div class="totals-row discount-row">
+               <span>Total Discount</span>
+               <span>${totalDiscount.toFixed(2)} /=</span>
+             </div>`
+          : ''}
+      </div>
+
+      <!-- FOOTER -->
+      <div class="dashed"></div>
+      <div class="sinhala-note">
+        Return accept within 7 days with bill
+      </div>
+
+      <div class="thank-you">✦ THANK YOU COME AGAIN ✦</div>
 
       <script>
         window.onload = () => {
