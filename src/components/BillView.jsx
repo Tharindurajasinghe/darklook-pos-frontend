@@ -39,10 +39,11 @@ export const getBillHTML = (bill) => {
 
         /* ── DARK HEADER ─────────────────────────────── */
         .header {
-          background: #1a1a1a;
-          color: #fff;
+          background: #fff;
+          color: #111;
           padding: 10px 8px 8px;
           text-align: center;
+          border-bottom: 2px solid #1a1a1a;
         }
 
         .logo-wrap {
@@ -219,18 +220,12 @@ export const getBillHTML = (bill) => {
       <div class="header">
         <div class="logo-wrap">
           <img src="data:image/png;base64,${LOGO_BASE64}" alt="Logo" />
-        </div>
-        <div class="shop-name">DarkLook Clothing</div>
-        <div class="tagline">
-          Premium Clothing — Wholesale &amp; Retail<br>
-          T-Shirts · Denims · Kids Dresses · Bridal Lehengas<br>
-          Tops · Fancy Items · Tailoring &amp; Classes
-        </div>
-      </div>
-
+  
+       </div>
       <!-- CONTACT BAR -->
       <div class="contact-bar">
-        📍 B/88, Badulupitiya Road, Badulla &nbsp;|&nbsp; 📞 0767153333 / 0787153333
+          B/88, Badulupitiya Road, Badulla <br>
+           Tele - 0767153333 / 0787153333
       </div>
 
       <!-- BILL META -->
