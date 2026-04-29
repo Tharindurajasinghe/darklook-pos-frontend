@@ -51,8 +51,8 @@ export const getBillHTML = (bill) => {
         }
 
         .logo-wrap img {
-          width: 64px;
-          height: 64px;
+          width: 100px;
+          height: 100px;
           object-fit: contain;
           border-radius: 6px;
           background: #fff;
@@ -76,12 +76,15 @@ export const getBillHTML = (bill) => {
         }
 
         .contact-bar {
-          background: #333;
-          color: #eee;
+          background: transparent;
+          color: #333;
           font-size: 9px;
+          font-weight: bold;
           text-align: center;
           padding: 4px 6px;
           letter-spacing: 0.4px;
+          line-height: 1.6;
+          margin-top: 4px;
         }
 
         /* ── BILL META ───────────────────────────────── */
