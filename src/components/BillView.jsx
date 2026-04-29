@@ -18,6 +18,7 @@ export const getBillHTML = (bill) => {
   return `
   <html>
     <head>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap" rel="stylesheet">
       <meta charset="UTF-8">
       <title>Bill ${bill.billId}</title>
       <style>
@@ -29,12 +30,13 @@ export const getBillHTML = (bill) => {
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-          font-family: 'Courier New', monospace;
+          font-family: 'Roboto Mono', monospace;
           width: 302px;
           margin: 0 auto;
-          font-size: 10px;
+          font-size: 12px;
           color: #111;
           background: #fff;
+          font-weight: 500;
         }
 
         /* ── DARK HEADER ─────────────────────────────── */
@@ -127,7 +129,7 @@ export const getBillHTML = (bill) => {
         }
 
         th {
-          font-size: 9px;
+          font-size: 10px;
           padding: 4px 3px;
           font-weight: bold;
           letter-spacing: 0.3px;
@@ -136,7 +138,7 @@ export const getBillHTML = (bill) => {
         tbody tr:nth-child(even) { background: #f5f5f5; }
 
         td {
-          font-size: 9.5px;
+          font-size: 10px;
           padding: 3px 3px;
           vertical-align: top;
         }
