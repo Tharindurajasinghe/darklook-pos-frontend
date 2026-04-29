@@ -80,7 +80,7 @@ export const getBillHTML = (bill) => {
         .contact-bar {
           background: transparent;
           color: #333;
-          font-size: 9px;
+          font-size: 12px;
           font-weight: bold;
           text-align: center;
           padding: 4px 6px;
@@ -124,8 +124,9 @@ export const getBillHTML = (bill) => {
         }
 
         thead tr {
-          background: #1a1a1a;
-          color: #fff;
+          background: transparent;
+          color: #000;
+          border-bottom: 1px solid #000;
         }
 
         th {
@@ -182,8 +183,8 @@ export const getBillHTML = (bill) => {
         }
 
         .totals-row.grand {
-          background: #1a1a1a;
-          color: #fff;
+          background: transparent;
+          color: #000;
           padding: 4px 6px;
           margin: 4px 0;
           font-size: 11px;
@@ -200,7 +201,7 @@ export const getBillHTML = (bill) => {
         .dashed { border-top: 1px dashed #aaa; margin: 6px 8px; }
 
         .sinhala-note {
-          font-size: 9px;
+          font-size: 11px;
           text-align: center;
           padding: 4px 8px;
           color: #444;
@@ -208,8 +209,8 @@ export const getBillHTML = (bill) => {
         }
 
         .thank-you {
-          background: #1a1a1a;
-          color: #fff;
+          background: transparent;
+          color: #000;
           text-align: center;
           font-size: 12px;
           font-weight: bold;
