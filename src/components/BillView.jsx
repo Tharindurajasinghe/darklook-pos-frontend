@@ -53,12 +53,12 @@ export const getBillHTML = (bill) => {
         }
 
         .logo-wrap img {
-          width: 155px;
-          height: 155px;
+          width: 190px;
+          height: 195px;
           object-fit: contain;
           border-radius: 6px;
           background: #fff;
-          padding: 3px;
+          padding: 3px; 
         }
 
         .shop-name {
