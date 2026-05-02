@@ -79,8 +79,8 @@ export const getBillHTML = (bill) => {
 
         .contact-bar {
           background: transparent;
-          color: #333;
-          font-size: 12px;
+          color: #000;
+          font-size: 14px;
           font-weight: bold;
           text-align: center;
           padding: 4px 6px;
@@ -207,11 +207,11 @@ export const getBillHTML = (bill) => {
         .dashed { border-top: 1px dashed #aaa; margin: 6px 8px; }
 
         .sinhala-note {
-          font-size: 12px;
+          font-size: 14px;
           font-weight: bold;
           text-align: center;
           padding: 4px 8px;
-          color: #444;
+          color: #000;
           line-height: 1.6;
         }
 
