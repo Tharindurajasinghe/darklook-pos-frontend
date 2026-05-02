@@ -53,8 +53,8 @@ export const getBillHTML = (bill) => {
         }
 
         .logo-wrap img {
-          width: 100px;
-          height: 100px;
+          width: 155px;
+          height: 155px;
           object-fit: contain;
           border-radius: 6px;
           background: #fff;
@@ -98,7 +98,7 @@ export const getBillHTML = (bill) => {
         .meta-row {
           display: flex;
           justify-content: space-between;
-          font-size: 9.5px;
+          font-size: 10px;
           padding: 1px 0;
         }
 
@@ -106,7 +106,7 @@ export const getBillHTML = (bill) => {
         .meta-row .value { font-weight: bold; }
 
         .bill-id-row {
-          font-size: 11px;
+          font-size: 13px;
           font-weight: bold;
           text-align: center;
           padding: 4px 0 2px;
@@ -130,7 +130,8 @@ export const getBillHTML = (bill) => {
         }
 
         th {
-          font-size: 10px;
+          font-size: 13px;
+          font-weight: bold;
           padding: 4px 3px;
           font-weight: bold;
           letter-spacing: 0.3px;
@@ -139,7 +140,8 @@ export const getBillHTML = (bill) => {
         tbody tr:nth-child(even) { background: #f5f5f5; }
 
         td {
-          font-size: 10px;
+          font-size: 12px;
+          font-weight: bold;
           padding: 3px 3px;
           vertical-align: top;
         }
@@ -149,7 +151,8 @@ export const getBillHTML = (bill) => {
 
         .variant-info {
           display: block;
-          font-size: 8.5px;
+          font-size: 9px;
+          font-weight: bold;
           color: #666;
           font-style: italic;
         }
@@ -157,14 +160,16 @@ export const getBillHTML = (bill) => {
         .unit-label { font-size: 8.5px; color: #666; }
 
         .original-price {
-          font-size: 8.5px;
+          font-size: 10px;
+          font-weight: bold;
           color: #999;
           text-decoration: line-through;
           display: block;
         }
 
         .dis-price {
-          font-size: 9.5px;
+          font-size: 12px;
+          font-weight: bold;
           color: #000;
         }
 
@@ -179,7 +184,8 @@ export const getBillHTML = (bill) => {
           display: flex;
           justify-content: space-between;
           padding: 2px 2px;
-          font-size: 10px;
+          font-size: 13px;
+          font-weight: bold;
         }
 
         .totals-row.grand {
@@ -187,7 +193,7 @@ export const getBillHTML = (bill) => {
           color: #000;
           padding: 4px 6px;
           margin: 4px 0;
-          font-size: 11px;
+          font-size: 13px;
           font-weight: bold;
           border-radius: 2px;
         }
@@ -201,7 +207,8 @@ export const getBillHTML = (bill) => {
         .dashed { border-top: 1px dashed #aaa; margin: 6px 8px; }
 
         .sinhala-note {
-          font-size: 11px;
+          font-size: 12px;
+          font-weight: bold;
           text-align: center;
           padding: 4px 8px;
           color: #444;
@@ -212,7 +219,7 @@ export const getBillHTML = (bill) => {
           background: transparent;
           color: #000;
           text-align: center;
-          font-size: 12px;
+          font-size: 14px;
           font-weight: bold;
           letter-spacing: 2px;
           padding: 6px;
