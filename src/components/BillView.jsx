@@ -98,7 +98,7 @@ export const getBillHTML = (bill) => {
         .meta-row {
           display: flex;
           justify-content: space-between;
-          font-size: 10px;
+          font-size: 12px;
           padding: 1px 0;
         }
 
@@ -106,7 +106,7 @@ export const getBillHTML = (bill) => {
         .meta-row .value { font-weight: bold; }
 
         .bill-id-row {
-          font-size: 13px;
+          font-size: 14px;
           font-weight: bold;
           text-align: center;
           padding: 4px 0 2px;
@@ -130,7 +130,7 @@ export const getBillHTML = (bill) => {
         }
 
         th {
-          font-size: 13px;
+          font-size: 14px;
           font-weight: bold;
           padding: 4px 3px;
           font-weight: bold;
@@ -140,7 +140,7 @@ export const getBillHTML = (bill) => {
         tbody tr:nth-child(even) { background: #f5f5f5; }
 
         td {
-          font-size: 12px;
+          font-size: 13px;
           font-weight: bold;
           padding: 3px 3px;
           vertical-align: top;
@@ -151,7 +151,7 @@ export const getBillHTML = (bill) => {
 
         .variant-info {
           display: block;
-          font-size: 9px;
+          font-size: 10px;
           font-weight: bold;
           color: #666;
           font-style: italic;
@@ -160,7 +160,7 @@ export const getBillHTML = (bill) => {
         .unit-label { font-size: 8.5px; color: #666; }
 
         .original-price {
-          font-size: 10px;
+          font-size: 12px;
           font-weight: bold;
           color: #999;
           text-decoration: line-through;
@@ -184,7 +184,7 @@ export const getBillHTML = (bill) => {
           display: flex;
           justify-content: space-between;
           padding: 2px 2px;
-          font-size: 13px;
+          font-size: 15px;
           font-weight: bold;
         }
 
@@ -193,7 +193,7 @@ export const getBillHTML = (bill) => {
           color: #000;
           padding: 4px 6px;
           margin: 4px 0;
-          font-size: 13px;
+          font-size: 15px;
           font-weight: bold;
           border-radius: 2px;
         }
