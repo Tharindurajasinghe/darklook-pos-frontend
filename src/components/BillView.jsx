@@ -53,8 +53,8 @@ export const getBillHTML = (bill) => {
         }
 
         .logo-wrap img {
-          width: 190px;
-          height: 195px;
+          width: 225px;
+          height: 225px;
           object-fit: contain;
           border-radius: 6px;
           background: #fff;
@@ -99,10 +99,11 @@ export const getBillHTML = (bill) => {
           display: flex;
           justify-content: space-between;
           font-size: 12px;
+          font-weight: bold;
           padding: 1px 0;
         }
 
-        .meta-row .label { color: #555; }
+        .meta-row .label { color: #000; }
         .meta-row .value { font-weight: bold; }
 
         .bill-id-row {
@@ -153,7 +154,7 @@ export const getBillHTML = (bill) => {
           display: block;
           font-size: 10px;
           font-weight: bold;
-          color: #666;
+          color: #000;
           font-style: italic;
         }
 
@@ -162,7 +163,7 @@ export const getBillHTML = (bill) => {
         .original-price {
           font-size: 12px;
           font-weight: bold;
-          color: #999;
+          color: #000;
           text-decoration: line-through;
           display: block;
         }
@@ -237,7 +238,7 @@ export const getBillHTML = (bill) => {
        </div>
       <!-- CONTACT BAR -->
       <div class="contact-bar">
-          B/88, Badulupitiya Road, Badulla <br>
+          B/88, Badulupitiya,Badulla<br>
            Tele - 0767153333 / 0787153333
       </div>
 
