@@ -126,11 +126,12 @@ const BarcodePrintPage = () => {
       <div id="barcode-bill" ref={printRef}>
         {printProduct && (
           <div className="bill-slip">
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-start', gap:'6px', marginBottom: '4px' }}>
               <span>ID:</span><span style={{ fontWeight: 'bold' }}>{printProduct.productId}</span>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
-              <span>Price:</span><span style={{ fontWeight: 'bold' }}>Rs. {printProduct.sellingPrice.toFixed(2)}</span>
+            <div style={{ display: 'flex', justifyContent: 'flex-start', gap:'6px', marginBottom: '2px' }}>
+              <span style={{ fontSize: '19pt', fontWeight: 'bold' }}>Price:</span>
+              <span style={{ fontWeight: 'bold', fontSize: '22pt' , fontFamily: 'Arial'  }}>Rs. {printProduct.sellingPrice.toFixed(2)}</span>
             </div>
             <div className="bill-barcode-wrap">
               <Barcode
@@ -140,6 +141,8 @@ const BarcodePrintPage = () => {
                 fontSize={25}
                 margin={2}
                 displayValue={true}
+                fontOptions="normal"
+                font="Arial"
               />
             </div>
           </div>
