@@ -201,7 +201,8 @@ export const getBillHTML = (bill) => {
 
         .totals-row.discount-row {
           color: #c0392b;
-          font-weight: bold;
+          font-weight: 900;
+          font-size: 17px;
         }
 
         /* ── FOOTER ──────────────────────────────────── */
@@ -327,7 +328,7 @@ export const getBillHTML = (bill) => {
       <!-- FOOTER -->
       <div class="dashed"></div>
       <div class="sinhala-note">
-        Return accept within 7 days with bill
+        Return accept within 24 hours with bill
       </div>
 
       <div class="thank-you">✦ THANK YOU COME AGAIN ✦</div>

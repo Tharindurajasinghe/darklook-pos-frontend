@@ -97,14 +97,24 @@ const BarcodePrintPage = () => {
           }
           /* ── BILL SIZE — adjust width/height here ── */
           .bill-slip {
-            width: 80mm;       /* change to e.g. 58mm or 100mm */
-            padding: 6mm 4mm;
+            width: 80mm;
+            padding: 4mm 3mm;
             font-family: monospace;
-            font-size: 11pt;
+            font-size: 12pt;
             border: 1px solid #000;
             box-sizing: border-box;
             background: #fff;
             color: #000;
+          }
+          .bill-barcode-wrap {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin: 4mm 0 2mm 0;
+          }
+          .bill-barcode-wrap svg {
+            width: 95% !important;
+            height: auto !important;
           }
         }
         @media screen {
@@ -116,26 +126,18 @@ const BarcodePrintPage = () => {
       <div id="barcode-bill" ref={printRef}>
         {printProduct && (
           <div className="bill-slip">
-            <div style={{ textAlign: 'center', borderBottom: '1px dashed #000', paddingBottom: '4px', marginBottom: '6px' }}>
-              <div style={{ fontWeight: 'bold', fontSize: '13pt' }}>{printProduct.name}</div>
-              <div style={{ fontSize: '10pt', color: '#333' }}>
-                {printProduct.variant && printProduct.variant !== 'Standard'
-                  ? printProduct.variant
-                  : 'Standard'}
-              </div>
-            </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '4px' }}>
               <span>ID:</span><span style={{ fontWeight: 'bold' }}>{printProduct.productId}</span>
             </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '2px' }}>
               <span>Price:</span><span style={{ fontWeight: 'bold' }}>Rs. {printProduct.sellingPrice.toFixed(2)}</span>
             </div>
-            <div style={{ textAlign: 'center' }}>
+            <div className="bill-barcode-wrap">
               <Barcode
                 value={printProduct.barcode}
-                width={1.5}
-                height={50}
-                fontSize={10}
+                width={2.8}
+                height={80}
+                fontSize={25}
                 margin={2}
                 displayValue={true}
               />
