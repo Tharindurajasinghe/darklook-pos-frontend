@@ -200,7 +200,7 @@ export const getBillHTML = (bill) => {
         }
 
         .totals-row.discount-row {
-          color: #c0392b;
+          color: #000;
           font-weight: 900;
           font-size: 17px;
         }
