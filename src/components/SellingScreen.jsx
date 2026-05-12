@@ -122,7 +122,7 @@ const SellingScreen = ({ onEndDay }) => {
   // scanner input from manual keyboard input.
   useEffect(() => {
     const BARCODE_MIN_LENGTH = 3;   // ignore very short accidental scans
-    const IDLE_TIMEOUT_MS    = 50;  // ms of silence = end of barcode
+    const IDLE_TIMEOUT_MS    = 100;  // ms of silence = end of barcode
 
     const onKeyDown = (e) => {
       // Ignore modifier combos and events from focused inputs (manual typing)
