@@ -120,67 +120,79 @@ const SellingScreen = ({ onEndDay }) => {
   // Barcode scanners typically fire characters rapidly and finish with Enter.
   // We collect characters in a buffer with a 50ms idle timeout to distinguish
   // scanner input from manual keyboard input.
-  useEffect(() => {
-    const BARCODE_MIN_LENGTH = 3;   // ignore very short accidental scans
-    const IDLE_TIMEOUT_MS    = 100;  // ms of silence = end of barcode
+ useEffect(() => {
+  const BARCODE_MIN_LENGTH = 3;
+  const IDLE_TIMEOUT_MS    = 150;  // ← increased from 50
+  let lastKeyTime = 0;
 
-    const onKeyDown = (e) => {
-      // Ignore modifier combos and events from focused inputs (manual typing)
-      const tag = document.activeElement?.tagName;
-      if (e.ctrlKey || e.altKey || e.metaKey) return;
-      if (tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') return;
+  const onKeyDown = (e) => {
+    const tag = document.activeElement?.tagName;
+    if (e.ctrlKey || e.altKey || e.metaKey) return;
 
-      if (e.key === 'Enter') {
-        // Cancel idle timer immediately so it cannot fire a second scan
-        if (barcodeTimerRef.current) {
-          clearTimeout(barcodeTimerRef.current);
-          barcodeTimerRef.current = null;
+    const now = Date.now();
+    const timeSinceLastKey = now - lastKeyTime;
+    // Treat as scanner if chars arrive < 50ms apart (human can't type that fast)
+    const likelyScannerInput = timeSinceLastKey < 50;
+
+    // If focused in an input AND this doesn't look like scanner input, skip
+    if ((tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') && !likelyScannerInput) return;
+
+    lastKeyTime = now;
+
+    if (e.key === 'Enter') {
+      if (barcodeTimerRef.current) {
+        clearTimeout(barcodeTimerRef.current);
+        barcodeTimerRef.current = null;
+      }
+      setBarcodeBuffer(prev => {
+        const code = prev.trim();
+        if (code.length >= BARCODE_MIN_LENGTH && !barcodeHandledRef.current) {
+          barcodeHandledRef.current = true;
+          // Clear the search box if scanner hijacked it
+          setSearchQuery('');
+          setSuggestions([]);
+          handleBarcodeScanned(code);
+          setTimeout(() => { barcodeHandledRef.current = false; }, 300);
         }
+        return '';
+      });
+      return;
+    }
 
+    if (e.key.length === 1) {
+      barcodeHandledRef.current = false;
+      setBarcodeBuffer(prev => prev + e.key);
+      setBarcodeStatus('scanning');
+
+      // If scanner hijacked the search input, prevent it from typing there
+      if ((tag === 'INPUT' || tag === 'SELECT' || tag === 'TEXTAREA') && likelyScannerInput) {
+        e.preventDefault();
+        // Clear the search box — scanner chars may have leaked into it
+        setSearchQuery('');
+        setSuggestions([]);
+      }
+
+      if (barcodeTimerRef.current) clearTimeout(barcodeTimerRef.current);
+      barcodeTimerRef.current = setTimeout(() => {
         setBarcodeBuffer(prev => {
           const code = prev.trim();
-          // Only call handler if not already handled by idle timer
           if (code.length >= BARCODE_MIN_LENGTH && !barcodeHandledRef.current) {
             barcodeHandledRef.current = true;
             handleBarcodeScanned(code);
-            // Reset guard after a short delay
             setTimeout(() => { barcodeHandledRef.current = false; }, 300);
           }
           return '';
         });
-        return;
-      }
+      }, IDLE_TIMEOUT_MS);
+    }
+  };
 
-      // Single printable character — add to buffer
-      if (e.key.length === 1) {
-        // Reset the handled guard when new characters start coming in
-        barcodeHandledRef.current = false;
-        setBarcodeBuffer(prev => prev + e.key);
-        setBarcodeStatus('scanning');
-
-        // Reset idle timer
-        if (barcodeTimerRef.current) clearTimeout(barcodeTimerRef.current);
-        barcodeTimerRef.current = setTimeout(() => {
-          setBarcodeBuffer(prev => {
-            const code = prev.trim();
-            // Only fire if not already handled and guard not set
-            if (code.length >= BARCODE_MIN_LENGTH && !barcodeHandledRef.current) {
-              barcodeHandledRef.current = true;
-              handleBarcodeScanned(code);
-              setTimeout(() => { barcodeHandledRef.current = false; }, 300);
-            }
-            return '';
-          });
-        }, IDLE_TIMEOUT_MS);
-      }
-    };
-
-    window.addEventListener('keydown', onKeyDown);
-    return () => {
-      window.removeEventListener('keydown', onKeyDown);
-      if (barcodeTimerRef.current) clearTimeout(barcodeTimerRef.current);
-    };
-  }, [productIndex]);   // re-bind when productIndex is ready
+  window.addEventListener('keydown', onKeyDown);
+  return () => {
+    window.removeEventListener('keydown', onKeyDown);
+    if (barcodeTimerRef.current) clearTimeout(barcodeTimerRef.current);
+  };
+}, [productIndex]);  // re-bind when productIndex is ready
 
   /** Handle a fully scanned barcode */
   const handleBarcodeScanned = async (barcode) => {
