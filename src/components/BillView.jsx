@@ -30,7 +30,7 @@ export const getBillHTML = (bill) => {
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-          font-family: 'Roboto Mono', monospace;
+          font-family: Arial, sans-serif;
           width: 302px;
           margin: 0 auto;
           font-size: 12px;
@@ -164,7 +164,6 @@ export const getBillHTML = (bill) => {
           font-size: 12px;
           font-weight: bold;
           color: #000;
-          text-decoration: line-through;
           display: block;
         }
 
