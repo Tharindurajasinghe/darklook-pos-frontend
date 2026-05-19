@@ -279,13 +279,17 @@ export const getBillHTML = (bill) => {
 
               const isPriceEdited = i.originalPrice !== undefined && i.originalPrice !== null;
 
+              const itemDiscount = isPriceEdited
+                ? (parseFloat(i.originalPrice) - parseFloat(i.price)).toFixed(2)
+                : null;
+
               const priceCell = isPriceEdited
                 ? `<span class="original-price">${parseFloat(i.originalPrice).toFixed(2)}</span>`
                 : `${parseFloat(i.price).toFixed(2)}`;
 
               const disPriCell = hasEditedPrice
                 ? (isPriceEdited
-                    ? `<span class="dis-price">${totalDiscount.toFixed(2)}</span>`
+                    ? `<span class="dis-price">${itemDiscount}</span>`
                     : ``)
                 : '';
 
